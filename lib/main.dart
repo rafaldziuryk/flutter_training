@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,7 +10,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+//TODO ROUTES
+//      home: MyHomePage(title: 'Flutter Demo Home Page'),
+//      routes: {
+//        "/" : (context) => MyHomePage(title: 'Flutter Demo Home Page')
+//      },
+      onGenerateRoute: (settings) {
+        return MaterialPageRoute(
+            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'));
+      },
     );
   }
 }
@@ -28,6 +35,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  int selectedItem = 1;
+
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -36,7 +45,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -55,10 +63,97 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+//      TODO Drawer & Bottom Navigation Bar
+      drawer: drawer(),
+      bottomNavigationBar: bottomNavigationBar(),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: Icon(Icons.add),
+      ),
+    );
+  }
+
+//  TODO Bottom Navigation Bar
+  BottomNavigationBar bottomNavigationBar() {
+    return BottomNavigationBar(
+//      elevation: 16.0,
+//      type: BottomNavigationBarType.shifting,
+//      showSelectedLabels: false,
+//      showUnselectedLabels: true,
+      items: [
+        BottomNavigationBarItem(
+//            backgroundColor: Colors.red,
+//            activeIcon: Icon(Icons.account_box),
+            icon: Icon(Icons.account_circle),
+            title: Text("Profile")),
+        BottomNavigationBarItem(
+//            backgroundColor: Colors.orange,
+            icon: Icon(Icons.home),
+            title: Text("Home")),
+        BottomNavigationBarItem(
+//            backgroundColor: Colors.brown,
+            icon: Icon(Icons.settings),
+            title: Text("Settings")),
+      ],
+      currentIndex: selectedItem,
+      onTap: (index) {
+        setState(() {
+          selectedItem = index;
+        });
+      },
+    );
+  }
+
+//  TODO Drawer
+  Drawer drawer() {
+    return Drawer(
+      child: SafeArea(
+        child: Column(
+          children: <Widget>[
+            ListTile(
+//              dense: true,
+//              enabled: false,
+//              isThreeLine: true,
+//              subtitle: Text("Home, sweet home"),
+//              trailing: Icon(Icons.settings),
+//              contentPadding: EdgeInsets.all(16),
+//              contentPadding: EdgeInsets.symmetric(vertical: 16),
+//              contentPadding: EdgeInsets.only(left: 16),
+              selected: selectedItem == 1,
+              title: Text("Home"),
+              leading: Icon(Icons.home),
+              onTap: () {
+                setState(() {
+                  selectedItem = 1;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              selected: selectedItem == 0,
+              title: Text("Profile"),
+              leading: Icon(Icons.account_circle),
+              onTap: () {
+                setState(() {
+                  selectedItem = 0;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+            ListTile(
+              selected: selectedItem == 2,
+              title: Text("Settings"),
+              leading: Icon(Icons.settings),
+              onTap: () {
+                setState(() {
+                  selectedItem = 2;
+                });
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
