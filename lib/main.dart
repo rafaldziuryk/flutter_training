@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertrainer/widgets/account_page.dart';
+import 'package:fluttertrainer/widgets/profile.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,8 +18,12 @@ class MyApp extends StatelessWidget {
 //        "/" : (context) => MyHomePage(title: 'Flutter Demo Home Page')
 //      },
       onGenerateRoute: (settings) {
-        return MaterialPageRoute(
-            builder: (context) => MyHomePage(title: 'Flutter Demo Home Page'));
+        switch (settings.name) {
+          case "/account":
+            return MaterialPageRoute(builder: (context) => AccountPage());
+          default:
+            return MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Home Page',));
+        }
       },
     );
   }
@@ -49,20 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
-      ),
+      body: body(context),
 //      TODO Drawer & Bottom Navigation Bar
       drawer: drawer(),
       bottomNavigationBar: bottomNavigationBar(),
@@ -72,6 +65,28 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Icon(Icons.add),
       ),
     );
+  }
+
+  Widget body(BuildContext context) {
+    switch (selectedItem) {
+      case 0:
+        return Profile();
+      default:
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(
+                'You have pushed the button this many times:',
+              ),
+              Text(
+                '$_counter',
+                style: Theme.of(context).textTheme.display1,
+              ),
+            ],
+          ),
+        );
+    }
   }
 
 //  TODO Bottom Navigation Bar
