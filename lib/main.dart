@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertrainer/logic/auth/auth_bloc.dart';
 import 'package:fluttertrainer/widgets/account_page.dart';
 import 'package:fluttertrainer/widgets/profile.dart';
 
@@ -7,24 +9,27 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+    return BlocProvider(
+      create: (context) => AuthBloc(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
 //TODO ROUTES
 //      home: MyHomePage(title: 'Flutter Demo Home Page'),
 //      routes: {
 //        "/" : (context) => MyHomePage(title: 'Flutter Demo Home Page')
 //      },
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case "/account":
-            return MaterialPageRoute(builder: (context) => AccountPage());
-          default:
-            return MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Home Page',));
-        }
-      },
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case "/account":
+              return MaterialPageRoute(builder: (context) => AccountPage());
+            default:
+              return MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Home Page',));
+          }
+        },
+      ),
     );
   }
 }
